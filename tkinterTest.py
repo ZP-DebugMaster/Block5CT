@@ -1,16 +1,17 @@
 from tkinter import *
+from tkinter import messagebox 
+import random
 
 
 top = Tk()
 playlistList = []
+myRolls = []
+rollTimes = 0
+dieType = 0
 
 def results():
     print(playlistList)
 
-def addToList():
-    newItem = E1.get()
-    playlistList.append(newItem)
-    E1.delete(0, END)
 
 def exportList():
     with open('test.txt', 'w') as f:
@@ -29,14 +30,19 @@ def mainMenu():
     B1Main = Button(text = "Week 1", bg = "white", command = week1)
     B1Main.grid(column = 2, row = 2)
     
-    B2Main = Button(text = "Week 2", bg = "white")
+    B2Main = Button(text = "Week 2", bg = "white", command = week2)
     B2Main.grid(column = 2, row = 3)
 
-    B3Main = Button(text = "Week 3", bg = "white")
+    B3Main = Button(text = "Week 3", bg = "white", command = week3)
     B3Main.grid(column = 2, row = 4)
 
 def week1():
-    clearWindow()
+
+    def addToList():
+        newItem = E1.get()
+        playlistList.append(newItem)
+        E1.delete(0, END)
+   
     #This is a label widget
     L1 = Label(top, text = "Playlist Maker")
     L1.grid(column = 0, row = 1)
@@ -55,10 +61,60 @@ def week1():
     B3 = Button(text = "Export List", bg = "#ceb0af", command = exportList)
     B3.grid(column = 0, row = 4)
 
-    """
-    Bclear = Button(text = "Clear Window", bg = "white", command = clearWindow)
+    Bclear = Button(text = "Main Menu", bg = "white", command = mainMenu)
     Bclear.grid(column = 3, row = 1)
-    """
+
+
+def week2():
+    def rollDice():
+        #update our variable data
+        dieType = E1W2.get()
+        rollTimes = E2W2.get()
+
+        #clear window after pulling entry data
+        clearWindow()
+
+        #calculate dice rolls
+        for x in range(0, int(rollTimes)):
+            myRolls.append(random.randit(1, int(dieType)))
+        #display dice rolls and present an exit button
+        L4W2 = Label(top, text = "Here are your rolls!")
+        L4W2.grid(column = 0, row = 1)
+        #this one will use a .format() statement
+        L5W2 = Label(top, text = "{}".format(myRolls))
+        L5W2.grid(column = 0, row = 2)
+
+        B2W2 = Button(text = "Main Menu", bg = "yellow", command = mainMenu)
+        B2W2.grid(column = 0, row = 3)
+
+    clearWindow()
+    L1W2 = Label(text = "Dice Roller Program")
+    L1W2.grid(column = 0, row = 1)
+
+    L2W2 = Label(top, text = "How many sides?")
+    L2W2.grid(column = 0, row = 2)
+
+    L3W2 = Label(top, text = "How many rolls?")
+    L3W2.grid(column = 2, row = 2)
+
+    E1W2 = Entry(top, bd = 5)
+    E1W2.grid(column = 0, row = 3)
+
+    E2W2 = Entry(top, bd = 5)
+    E2W2.grid(column = 2, row = 3)
+
+    B1W2 = Button(text = "Roll!", bg = "yellow", command = rollDice)
+    B1W2.grid(column = 2, row = 4)
+
+    Bclear = Button(text = "Main Menu", bg = "blue", command = mainMenu)
+    Bclear.grid(column = 3, row = 1)
+
+def week3():
+    win = Tk()  
+    win.geometry("200x200")  
+    messagebox.showwarning("What is this place?","We don't know its just empty...")  
+  
+   
 
 if __name__== "__main__":
     mainMenu()
